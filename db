@@ -1,0 +1,1300 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE django_migrations_id_seq OWNED BY django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: word_review; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE word_review (
+    id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    word_id integer NOT NULL
+);
+
+
+ALTER TABLE public.word_review OWNER TO postgres;
+
+--
+-- Name: word_review_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE word_review_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.word_review_id_seq OWNER TO postgres;
+
+--
+-- Name: word_review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE word_review_id_seq OWNED BY word_review.id;
+
+
+--
+-- Name: word_word; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE word_word (
+    id integer NOT NULL,
+    code character varying(50) NOT NULL,
+    word character varying(50) NOT NULL,
+    pronounce_url text NOT NULL,
+    explainatin text NOT NULL,
+    example text NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    pronounce character varying(50) NOT NULL,
+    next_review_at timestamp with time zone NOT NULL,
+    graduated boolean NOT NULL
+);
+
+
+ALTER TABLE public.word_word OWNER TO postgres;
+
+--
+-- Name: word_word_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE word_word_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.word_word_id_seq OWNER TO postgres;
+
+--
+-- Name: word_word_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE word_word_id_seq OWNED BY word_word.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY word_review ALTER COLUMN id SET DEFAULT nextval('word_review_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY word_word ALTER COLUMN id SET DEFAULT nextval('word_word_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add permission	2	add_permission
+5	Can change permission	2	change_permission
+6	Can delete permission	2	delete_permission
+7	Can add group	3	add_group
+8	Can change group	3	change_group
+9	Can delete group	3	delete_group
+10	Can add user	4	add_user
+11	Can change user	4	change_user
+12	Can delete user	4	delete_user
+13	Can add content type	5	add_contenttype
+14	Can change content type	5	change_contenttype
+15	Can delete content type	5	delete_contenttype
+16	Can add session	6	add_session
+17	Can change session	6	change_session
+18	Can delete session	6	delete_session
+19	Can add word	7	add_word
+20	Can change word	7	change_word
+21	Can delete word	7	delete_word
+22	Can add review	8	add_review
+23	Can change review	8	change_review
+24	Can delete review	8	delete_review
+\.
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 24, true);
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$24000$s7bO1sndjpBd$8a5oueyLGg2j8GTffzKQYfPh5d5raqLL8Vtwh520koE=	2016-03-31 15:34:19.90456+08	t	lewisou			lewisou@gmail.com	t	t	2016-03-31 15:33:44.704486+08
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 1, true);
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2016-03-31 15:40:20.181138+08	1	Word object	1	Added.	7	1
+2	2016-04-01 11:01:19.689786+08	2	cult	1	Added.	7	1
+\.
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 2, true);
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	word	word
+8	word	review
+\.
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 8, true);
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2016-03-31 14:32:29.063767+08
+2	auth	0001_initial	2016-03-31 14:32:29.131807+08
+3	admin	0001_initial	2016-03-31 14:32:29.152531+08
+4	admin	0002_logentry_remove_auto_add	2016-03-31 14:32:29.169299+08
+5	contenttypes	0002_remove_content_type_name	2016-03-31 14:32:29.207636+08
+6	auth	0002_alter_permission_name_max_length	2016-03-31 14:32:29.225911+08
+7	auth	0003_alter_user_email_max_length	2016-03-31 14:32:29.2356+08
+8	auth	0004_alter_user_username_opts	2016-03-31 14:32:29.243746+08
+9	auth	0005_alter_user_last_login_null	2016-03-31 14:32:29.253213+08
+10	auth	0006_require_contenttypes_0002	2016-03-31 14:32:29.25541+08
+11	auth	0007_alter_validators_add_error_messages	2016-03-31 14:32:29.263696+08
+12	sessions	0001_initial	2016-03-31 14:32:29.273061+08
+13	word	0001_initial	2016-03-31 15:22:20.67649+08
+14	word	0002_auto_20160331_0715	2016-03-31 15:22:20.694206+08
+15	word	0003_review	2016-03-31 15:22:20.703336+08
+16	word	0004_auto_20160331_0738	2016-03-31 15:38:27.066306+08
+17	word	0005_auto_20160412_0916	2016-04-12 09:16:38.236245+08
+18	word	0006_word_next_review_at	2016-04-28 15:05:44.059949+08
+19	word	0007_auto_20160428_1538	2016-04-28 15:38:59.352334+08
+20	word	0008_word_graduated	2016-04-28 17:02:50.632499+08
+\.
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('django_migrations_id_seq', 20, true);
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY django_session (session_key, session_data, expire_date) FROM stdin;
+4xjo5jhzuczd4zr07p21246dnfpqnke3	MzJiYjBiMjAzYWEyMGI0NjMxYmQ0Nzc4OGY0YTViZWZiYjczMzQyZTp7Il9hdXRoX3VzZXJfaGFzaCI6ImZlZmEyY2RmYjIxZTVlMjg1OTVkOTQ2NWNhYzI0YjVmNjgzYmMwMzIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=	2016-04-14 15:34:19.906623+08
+\.
+
+
+--
+-- Data for Name: word_review; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY word_review (id, created_at, updated_at, word_id) FROM stdin;
+1160	2016-04-28 15:27:14.734867+08	2016-04-28 15:27:14.734928+08	1
+1161	2016-04-28 15:28:58.12793+08	2016-04-28 15:28:58.12795+08	2
+1162	2016-04-28 15:29:03.446267+08	2016-04-28 15:29:03.446325+08	3
+1163	2016-04-28 15:29:06.790848+08	2016-04-28 15:29:06.790878+08	4
+1165	2016-04-28 15:31:12.344482+08	2016-04-28 15:31:12.344505+08	5
+1166	2016-04-28 15:32:59.269581+08	2016-04-28 15:32:59.269605+08	6
+1167	2016-04-28 15:33:06.366877+08	2016-04-28 15:33:06.366898+08	7
+1168	2016-04-28 15:33:19.556336+08	2016-04-28 15:33:19.556357+08	97
+1169	2016-04-28 15:33:34.550764+08	2016-04-28 15:33:34.550787+08	96
+1170	2016-04-28 15:33:57.8799+08	2016-04-28 15:33:57.879921+08	95
+1171	2016-04-28 15:39:46.82654+08	2016-04-28 15:39:46.826564+08	94
+1172	2016-04-28 15:40:14.395444+08	2016-04-28 15:40:14.395465+08	93
+1173	2016-04-28 15:40:23.125135+08	2016-04-28 15:40:23.125159+08	92
+1174	2016-04-28 15:40:35.407464+08	2016-04-28 15:40:35.407485+08	91
+1175	2016-04-28 15:40:46.483172+08	2016-04-28 15:40:46.483192+08	90
+1176	2016-04-28 15:41:50.992397+08	2016-04-28 15:41:50.992421+08	89
+1177	2016-04-28 15:41:54.478923+08	2016-04-28 15:41:54.478945+08	88
+1178	2016-04-28 15:42:00.206098+08	2016-04-28 15:42:00.20612+08	87
+1179	2016-04-28 15:42:03.995689+08	2016-04-28 15:42:03.995711+08	86
+1180	2016-04-28 15:42:10.469756+08	2016-04-28 15:42:10.469779+08	85
+1181	2016-04-28 15:42:18.230576+08	2016-04-28 15:42:18.230598+08	84
+1182	2016-04-28 15:42:23.53323+08	2016-04-28 15:42:23.533252+08	83
+1183	2016-04-28 15:42:28.925693+08	2016-04-28 15:42:28.925714+08	82
+1184	2016-04-28 15:42:36.687345+08	2016-04-28 15:42:36.687369+08	81
+1185	2016-04-28 15:42:52.800423+08	2016-04-28 15:42:52.800445+08	80
+1186	2016-04-28 15:42:58.191255+08	2016-04-28 15:42:58.191278+08	79
+1187	2016-04-28 15:43:02.02912+08	2016-04-28 15:43:02.029141+08	78
+1188	2016-04-28 15:43:08.742049+08	2016-04-28 15:43:08.74207+08	77
+1189	2016-04-28 15:43:11.742925+08	2016-04-28 15:43:11.742946+08	76
+1190	2016-04-28 15:43:22.607304+08	2016-04-28 15:43:22.607328+08	75
+1191	2016-04-28 15:43:27.679016+08	2016-04-28 15:43:27.679038+08	74
+1192	2016-04-28 15:43:32.653263+08	2016-04-28 15:43:32.653284+08	73
+1193	2016-04-28 15:43:37.526344+08	2016-04-28 15:43:37.526365+08	72
+1194	2016-04-28 15:43:41.80603+08	2016-04-28 15:43:41.806049+08	71
+1195	2016-04-28 15:43:45.454988+08	2016-04-28 15:43:45.45501+08	70
+1196	2016-04-28 15:43:48.752586+08	2016-04-28 15:43:48.752607+08	69
+1197	2016-04-28 15:43:52.991733+08	2016-04-28 15:43:52.991754+08	68
+1198	2016-04-28 15:43:57.527151+08	2016-04-28 15:43:57.527172+08	67
+1199	2016-04-28 15:44:01.62429+08	2016-04-28 15:44:01.624312+08	66
+1200	2016-04-28 15:44:05.808094+08	2016-04-28 15:44:05.808114+08	65
+1201	2016-04-28 15:44:16.446001+08	2016-04-28 15:44:16.446023+08	64
+1202	2016-04-28 15:44:19.46468+08	2016-04-28 15:44:19.464701+08	63
+1203	2016-04-28 15:44:24.311585+08	2016-04-28 15:44:24.311608+08	62
+1204	2016-04-28 15:44:29.377995+08	2016-04-28 15:44:29.378016+08	61
+1205	2016-04-28 15:44:33.456037+08	2016-04-28 15:44:33.456067+08	60
+1206	2016-04-28 15:44:36.842349+08	2016-04-28 15:44:36.842373+08	59
+1207	2016-04-28 15:44:40.568662+08	2016-04-28 15:44:40.568682+08	58
+1208	2016-04-28 15:44:46.144028+08	2016-04-28 15:44:46.14405+08	57
+1209	2016-04-28 15:44:49.088693+08	2016-04-28 15:44:49.088714+08	56
+1210	2016-04-28 15:44:53.12046+08	2016-04-28 15:44:53.120481+08	55
+1211	2016-04-28 15:45:02.953265+08	2016-04-28 15:45:02.953286+08	54
+1212	2016-04-28 15:45:07.575763+08	2016-04-28 15:45:07.575788+08	53
+1213	2016-04-28 15:45:12.69782+08	2016-04-28 15:45:12.69784+08	52
+1214	2016-04-28 15:45:19.937238+08	2016-04-28 15:45:19.937258+08	51
+1215	2016-04-28 15:45:24.348998+08	2016-04-28 15:45:24.349019+08	50
+1216	2016-04-28 15:45:28.530127+08	2016-04-28 15:45:28.530149+08	49
+1217	2016-04-28 15:45:33.540092+08	2016-04-28 15:45:33.540122+08	48
+1218	2016-04-28 15:45:38.843294+08	2016-04-28 15:45:38.843326+08	47
+1219	2016-04-28 15:45:49.320669+08	2016-04-28 15:45:49.32069+08	46
+1220	2016-04-28 15:45:54.464806+08	2016-04-28 15:45:54.464827+08	45
+1221	2016-04-28 15:46:03.850331+08	2016-04-28 15:46:03.850352+08	44
+1222	2016-04-28 15:46:07.145926+08	2016-04-28 15:46:07.145955+08	43
+1223	2016-04-28 15:46:12.648042+08	2016-04-28 15:46:12.648064+08	42
+1224	2016-04-28 16:48:00.844369+08	2016-04-28 16:48:00.844391+08	41
+1225	2016-04-29 08:10:00.519197+08	2016-04-29 08:10:00.519225+08	97
+1226	2016-04-29 08:10:29.929907+08	2016-04-29 08:10:29.929931+08	96
+1227	2016-04-29 08:14:38.927727+08	2016-04-29 08:14:38.927761+08	95
+1228	2016-04-29 08:14:55.940317+08	2016-04-29 08:14:55.940339+08	94
+1229	2016-04-29 08:16:13.861248+08	2016-04-29 08:16:13.861271+08	12
+1230	2016-04-29 08:29:56.847366+08	2016-04-29 08:29:56.847391+08	15
+1231	2016-04-29 08:31:33.21331+08	2016-04-29 08:31:33.213333+08	40
+1232	2016-04-29 08:32:02.562443+08	2016-04-29 08:32:02.562466+08	37
+1233	2016-04-29 08:32:18.454966+08	2016-04-29 08:32:18.454988+08	35
+1234	2016-04-29 08:33:38.676812+08	2016-04-29 08:33:38.676839+08	10
+1235	2016-04-29 08:33:56.828027+08	2016-04-29 08:33:56.828059+08	32
+1236	2016-04-29 08:34:20.574744+08	2016-04-29 08:34:20.574767+08	13
+1237	2016-04-29 08:35:17.084447+08	2016-04-29 08:35:17.08447+08	93
+1238	2016-04-29 08:35:57.417088+08	2016-04-29 08:35:57.417111+08	92
+1239	2016-04-29 08:36:10.488216+08	2016-04-29 08:36:10.488239+08	91
+1240	2016-04-29 08:36:25.574693+08	2016-04-29 08:36:25.574717+08	90
+1241	2016-04-29 08:37:12.399814+08	2016-04-29 08:37:12.399848+08	89
+1242	2016-04-29 08:39:46.9091+08	2016-04-29 08:39:46.909123+08	88
+1243	2016-04-29 08:39:52.401792+08	2016-04-29 08:39:52.401815+08	87
+1244	2016-04-29 08:40:18.794111+08	2016-04-29 08:40:18.794133+08	86
+1245	2016-04-29 08:40:34.152863+08	2016-04-29 08:40:34.152885+08	85
+1246	2016-04-29 08:40:49.937473+08	2016-04-29 08:40:49.937494+08	84
+1247	2016-04-29 08:41:09.822598+08	2016-04-29 08:41:09.82262+08	83
+1248	2016-04-29 09:06:51.26786+08	2016-04-29 09:06:51.267881+08	82
+1249	2016-04-29 09:07:19.193503+08	2016-04-29 09:07:19.193525+08	81
+1250	2016-04-29 09:08:16.870957+08	2016-04-29 09:08:16.870978+08	80
+1251	2016-04-29 09:08:33.123268+08	2016-04-29 09:08:33.123291+08	79
+1253	2016-04-29 09:53:35.837869+08	2016-04-29 09:53:35.83789+08	78
+1254	2016-04-29 10:10:07.741854+08	2016-04-29 10:10:07.741875+08	77
+1255	2016-04-29 10:10:56.995042+08	2016-04-29 10:10:56.995065+08	76
+1256	2016-04-29 10:11:08.834204+08	2016-04-29 10:11:08.834226+08	75
+\.
+
+
+--
+-- Name: word_review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('word_review_id_seq', 1256, true);
+
+
+--
+-- Data for Name: word_word; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY word_word (id, code, word, pronounce_url, explainatin, example, created_at, updated_at, pronounce, next_review_at, graduated) FROM stdin;
+8	entitlement	entitlement	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus71/eus71578.mp3	something, often a ​benefit from the ​government, that you have the ​right to have	​Social ​Security and ​Medicare are ​popular entitlement ​programs in the US.	2016-04-11 10:35:23.125785+08	2016-04-11 10:35:23.125825+08	ɪnˈtɑɪ·t̬əl·mənt	2016-04-28 15:05:36.730352+08	f
+9	veteran	veteran	http://dictionary.cambridge.org/media/english/us_pron/v/vet/veter/veteran.mp3	a ​person who has had a lot of ​experience in a ​particular ​activity or ​job	Ms. Beasly is one of ​our veterans – she has been ​teaching here for over 20 ​years.	2016-04-11 10:38:19.344583+08	2016-04-11 10:38:19.344609+08	ˈvet̬·ər·ən, ˈve·trən	2016-04-28 15:05:36.730352+08	f
+11	underdog	underdog	http://dictionary.cambridge.org/media/english/us_pron/u/und/under/underdog.mp3	the ​weaker of two competitors, or anyone not ​expected to ​win a ​competition	He ​began the ​race for ​governor as the underdog.	2016-04-11 12:41:29.660703+08	2016-04-11 12:41:29.660728+08	ˈʌn·dərˌdɔɡ	2016-04-28 15:05:36.730352+08	f
+14	onthemend	on the mend	http://dictionary.cambridge.org/media/english/us_pron/m/men/mend_/mend.mp3	becoming ​healthy after an ​illness	She's still in the ​hospital, but she's ​definitely on the mend.	2016-04-11 13:36:24.232328+08	2016-04-11 13:36:24.232354+08	mend	2016-04-28 15:05:36.730352+08	f
+16	drawn-out	drawn-out	http://dictionary.cambridge.org/media/english/us_pron/d/dra/drawn/drawn_out.mp3	​lasting ​longer than is ​usual or ​necessary	We had another drawn-out ​discussion after the ​meeting ​ended.	2016-04-11 13:52:19.988866+08	2016-04-11 13:52:19.988894+08	ˈdrɔnˈɑʊt	2016-04-28 15:05:36.730352+08	f
+17	resign	resign	http://dictionary.cambridge.org/media/english/us_pron/r/res/resig/resign.mp3	to give up a ​job or ​position	He resigned from the ​committee.	2016-04-11 13:54:02.703728+08	2016-04-11 13:54:02.703767+08	rɪˈzɑɪn	2016-04-28 15:05:36.730352+08	f
+18	chilling	chilling	http://dictionary.cambridge.org/media/english/us_pron/c/chi/chill/chilling.mp3	​frightening	The ​monument ​stands as a chilling ​reminder of man's ​inhumanity to man.	2016-04-11 14:02:03.438188+08	2016-04-11 14:02:03.438217+08	ˈtʃɪl.ɪŋ	2016-04-28 15:05:36.730352+08	f
+19	dodge	dodge	http://dictionary.cambridge.org/media/english/us_pron/d/dod/dodge/dodge.mp3	to ​avoid being ​hit by something by ​moving ​quickly to one ​side	He dodged to ​avoid the ​hurtling ​bicycle.	2016-04-11 14:07:14.374558+08	2016-04-11 14:07:14.374585+08	dɑdʒ	2016-04-28 15:05:36.730352+08	f
+20	aftermath	aftermath	http://dictionary.cambridge.org/media/english/us_pron/a/aft/after/aftermath.mp3	the ​period ​following an ​event, such as an ​accident or ​war, and the ​effects caused by the ​event	We all ​worked together in the aftermath of the ​earthquake.	2016-04-12 08:42:59.305835+08	2016-04-12 08:42:59.305996+08	ˈæf·tərˌmæθ	2016-04-28 15:05:36.730352+08	f
+21	plea	plea	http://dictionary.cambridge.org/media/english/us_pron/p/ple/plea_/plea.mp3	an ​urgent and ​emotional ​request	The ​president made a ​strong plea to ​Congress to ​vote on the health-care ​bill.	2016-04-12 08:49:02.113813+08	2016-04-12 08:49:02.113855+08	pli	2016-04-28 15:05:36.730352+08	f
+22	mortality	mortality	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus73/eus73090.mp3	the way that ​people do not ​live for ​ever	Her ​death made him more ​aware of his own mortality.	2016-04-12 09:27:15.850477+08	2016-04-12 09:27:15.85054+08	mɔrˈtæl·ɪ·t̬i	2016-04-28 15:05:36.730352+08	f
+23	accuse	accuse	http://dictionary.cambridge.org/media/english/us_pron/a/acc/accus/accuse.mp3	to say that someone is ​responsible for a ​crime or for having done something ​wrong	He was accused of ​failing to ​pay his ​taxes.	2016-04-12 09:47:14.074754+08	2016-04-12 09:47:14.074778+08	əˈkjuːz	2016-04-28 15:05:36.730352+08	f
+24	allegation	allegation	http://dictionary.cambridge.org/media/english/us_pron/a/all/alleg/allegation.mp3	a ​statement, made without giving ​proof, that someone has done something ​wrong or ​illegal	The allegations of ​corruption were not ​true.	2016-04-12 09:48:39.917734+08	2016-04-12 09:48:39.91776+08	ˌæl·ɪˈɡeɪ·ʃən	2016-04-28 15:05:36.730352+08	f
+25	transcendental	transcendental	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus74/eus74602.mp3	A transcendental ​experience, ​event, ​object, or ​idea is ​extremely ​special and ​unusual and cannot be ​understood in ​ordinary ​ways	a transcendental ​vision of the ​nature of ​God	2016-04-12 12:40:07.356929+08	2016-04-12 12:40:07.356969+08	ˌtræn.senˈden.t̬əl	2016-04-28 15:05:36.730352+08	f
+2	cult	cult	http://dictionary.cambridge.org/media/english/us_pron/c/cul/cult_/cult.mp3	a ​religious ​group, often ​living together, whose ​beliefs are ​considered ​extreme or ​strange by many ​people	Their ​son ​ran away from ​home and ​joined a ​religious cult.	2016-04-01 11:01:19.677075+08	2016-04-28 15:28:58.130687+08	kʌlt	2016-04-29 15:28:58.12793+08	f
+3	prompt	prompt	http://dictionary.cambridge.org/media/english/us_pron/p/pro/promp/prompt.mp3	to ​cause someone to say or do something	What prompted you to say that?	2016-04-08 16:37:55.666905+08	2016-04-28 15:29:03.449505+08		2016-04-29 15:29:03.446267+08	f
+4	drag	drag	http://dictionary.cambridge.org/media/english/us_pron/d/dra/drag_/drag.mp3	to move something ​heavy by ​pulling it along the ​ground	If the ​box is too ​heavy to ​lift, just drag it over here.	2016-04-08 16:52:16.207233+08	2016-04-28 15:29:06.793913+08		2016-04-29 15:29:06.790848+08	f
+5	showdown	showdown	http://dictionary.cambridge.org/media/english/us_pron/s/sho/showd/showdown.mp3	an ​event, such as a ​meeting or ​fight, that ​ends a ​disagreement or ​decides who will ​win	Sunday’s showdown will ​decide whether Mexico or Italy is the ​world ​soccer ​champion.	2016-04-08 16:59:16.443469+08	2016-04-28 15:31:12.347344+08		2016-04-29 15:31:12.344482+08	f
+6	creek	creek	http://dictionary.cambridge.org/media/english/us_pron/c/cre/creak/creak.mp3	a ​stream or ​narrow ​river	Her body was found Tuesday in a creek near the alumni center.	2016-04-09 06:56:16.730099+08	2016-04-28 15:32:59.272526+08		2016-04-29 15:32:59.269581+08	f
+7	affiliated	affiliated	http://dictionary.cambridge.org/media/english/us_pron/c/cbe/cbedu/cbedus00198.mp3	used to describe an ​organization that is ​officially ​connected with or ​controlled by another, usually larger, ​organization	Earlier this month an affiliated ​company ​filed for ​bankruptcy.	2016-04-11 10:06:54.320415+08	2016-04-28 15:33:06.369834+08		2016-04-29 15:33:06.366877+08	f
+15	embattled	embattled	http://dictionary.cambridge.org/media/english/us_pron/e/emb/embat/embattled.mp3	having a lot of ​problems or ​difficulties	The embattled ​leaders are ​trying to ​hold on to ​their ​positions.	2016-04-11 13:50:57.906217+08	2016-04-29 08:29:56.850387+08	ɪmˈbæt̬·əld	2016-04-30 08:29:56.847366+08	f
+10	sympathy	sympathy	http://dictionary.cambridge.org/media/english/us_pron/s/sym/sympa/sympathy.mp3	a ​feeling or ​expression of ​understanding and ​caring for someone ​else who is ​suffering or has ​problems that have caused ​unhappiness	When Robert ​died, I ​sent a ​letter of sympathy to his ​wife.	2016-04-11 12:40:04.114327+08	2016-04-29 08:33:38.67995+08	ˈsɪm·pə·θi	2016-04-30 08:33:38.676812+08	f
+13	reluctant	reluctant	http://dictionary.cambridge.org/media/english/us_pron/r/rel/reluc/reluctant.mp3	not ​wanting to do something and ​therefore ​slow to do it	She had ​trouble ​sleeping but was reluctant to take ​sleeping ​pills.	2016-04-11 13:30:46.461212+08	2016-04-29 08:34:20.577435+08	rɪˈlʌk·tənt	2016-04-30 08:34:20.574744+08	f
+26	cone	cone	http://dictionary.cambridge.org/media/english/us_pron/c/con/cone_/cone.mp3	a ​shape with a ​flat, round or ​oval ​base and a ​top that ​becomes ​narrower until it ​forms a ​point	a ​traffic cone	2016-04-12 16:51:26.556494+08	2016-04-12 16:51:26.55652+08	koʊn	2016-04-28 15:05:36.730352+08	f
+27	speculation	speculation	http://dictionary.cambridge.org/media/english/us_pron/s/spe/specu/speculation.mp3	the ​activity of ​guessing ​possible ​answers to a ​question without having enough ​information to be ​certain	Rumours that they are about to ​marry have been ​dismissed as ​pure speculation.	2016-04-13 09:44:48.648936+08	2016-04-13 09:44:48.648964+08	ˌspek.jəˈleɪ.ʃən	2016-04-28 15:05:36.730352+08	f
+28	sought	sought	http://dictionary.cambridge.org/media/english/us_pron/s/sor/sort_/sort.mp3	past simple and past participle of seek	past simple and past participle of seek	2016-04-13 09:46:14.175271+08	2016-04-13 09:46:14.175296+08	sɑːt	2016-04-28 15:05:36.730352+08	f
+29	toss	toss	http://dictionary.cambridge.org/media/english/us_pron/t/tos/toss_/toss.mp3	to ​throw ​gently or ​easily	He tossed his ​dirty ​clothes on the ​floor.	2016-04-13 09:49:39.969544+08	2016-04-13 09:49:39.969575+08	tɔs	2016-04-28 15:05:36.730352+08	f
+30	diagnostic	diagnostic	http://static.sfdict.com/staticrep/dictaudio/D02/D0258000.mp3	used for making a ​judgment about what a ​particular ​problem is  /  ​identifying a ​particular ​illness using a ​combination of ​signs and ​symptoms	The ​model is a ​useful diagnostic ​tool to ​determine what has the most ​impact on ​employees' ​performance.	2016-04-13 10:18:10.211269+08	2016-04-13 10:18:10.211295+08	ˌdaɪ.əɡˈnɑː.stɪk	2016-04-28 15:05:36.730352+08	f
+31	senator	senator	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus74/eus74148.mp3	a ​politician who has been ​elected to a Senate	Only two senators ​voted against the ​bill.	2016-04-13 10:33:11.749147+08	2016-04-13 10:33:11.749188+08	ˈsen.ə.t̬ɚ	2016-04-28 15:05:36.730352+08	f
+33	concession	concession	http://dictionary.cambridge.org/media/english/us_pron/c/con/conce/concession.mp3	something that is ​allowed or given up, often in ​order to end a ​disagreement, or the ​act of ​allowing or giving this	Both ​sides ​involved in the ​conflict made some concessions in yesterday's ​talks.	2016-04-13 13:02:54.739009+08	2016-04-13 13:02:54.739034+08	kənˈseʃ.ən	2016-04-28 15:05:36.730352+08	f
+34	deport	deport	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus75/eus75589.mp3	to ​force someone to ​leave a ​country, ​especially someone who has no ​legal ​right to be there or who has ​broken the ​law	Thousands of ​illegal ​immigrants are ​caught and deported every ​year.	2016-04-13 13:31:26.042702+08	2016-04-13 13:31:26.042743+08	dɪˈpɔːrt	2016-04-28 15:05:36.730352+08	f
+36	soar	soar	http://dictionary.cambridge.org/media/english/us_pron/s/soa/soar_/soar.mp3	to ​rise very ​quickly to a high ​level	Temperatures will soar over the ​weekend, say the ​weather ​forecasters.	2016-04-13 14:18:28.982213+08	2016-04-13 14:18:28.982239+08	sɔːr	2016-04-28 15:05:36.730352+08	f
+38	lottery	lottery	http://dictionary.cambridge.org/media/english/us_pron/l/lot/lotte/lottery.mp3	a ​game, often ​organized by the ​state or a ​charity in ​order to make ​money, in which ​tickets with ​numbers are ​sold to ​people who then have a ​chance of ​winning a ​prize if ​their ​number is ​chosen	Even if she ​won the lottery, Paige says, she’d still ​keep her ​job.	2016-04-13 16:12:09.14677+08	2016-04-13 16:12:09.146796+08	ˈlɑː.t̬ɚ.i	2016-04-28 15:05:36.730352+08	f
+39	bland	bland	http://dictionary.cambridge.org/media/english/us_pron/b/bla/bland/bland.mp3	​lacking a ​strong or ​particular ​flavor; not ​interesting	This ​sauce has a ​sharp ​taste and isn’t bland at all.	2016-04-13 16:14:55.900944+08	2016-04-13 16:14:55.900974+08	blænd	2016-04-28 15:05:36.730352+08	f
+48	avert	avert	http://dictionary.cambridge.org/media/english/us_pron/a/ave/avert/avert.mp3	to ​prevent something ​bad from ​happening	to avert ​disaster/​economic ​collapse	2016-04-14 11:29:45.808091+08	2016-04-28 15:45:33.542877+08	əˈvɝːt	2016-04-29 15:45:33.540092+08	f
+47	scam	scam	http://dictionary.cambridge.org/media/english/us_pron/s/sca/scam_/scam.mp3	an ​illegal ​plan for making ​money, ​especially one that ​involves ​tricking ​people	an ​insurance scam	2016-04-14 11:21:58.727524+08	2016-04-28 15:45:38.846959+08	skæm	2016-04-29 15:45:38.843294+08	f
+46	evict	evict	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus71/eus71685.mp3	to ​force someone to ​leave ​somewhere	He was evicted from the ​bar for ​drunken and ​disorderly ​behaviour.	2016-04-14 11:17:33.314479+08	2016-04-28 15:45:49.32361+08	ɪˈvɪkt	2016-04-29 15:45:49.320669+08	f
+45	setback	setback	http://dictionary.cambridge.org/media/english/us_pron/s/set/setba/setback.mp3	something that ​happens that ​delays or ​prevents a ​process from ​developing	Sally had been ​recovering well from her ​operation, but ​yesterday she ​experienced/​suffered a setback.	2016-04-14 11:16:16.974472+08	2016-04-28 15:45:54.468048+08	ˈset.bæk	2016-04-29 15:45:54.464806+08	f
+43	wake	wake	http://dictionary.cambridge.org/media/english/us_pron/w/wak/wake_/wake.mp3	an ​area of ​water whose ​movement has been ​changed by a ​boat or ​ship ​moving through it	The ​storm ​left a ​massive ​amount of ​destruction in ​its wake.	2016-04-14 11:09:26.325477+08	2016-04-28 15:46:07.14897+08	weɪk	2016-04-29 15:46:07.145926+08	f
+42	prosecute	prosecute	http://dictionary.cambridge.org/media/english/us_pron/p/pro/prose/prosecute.mp3	to ​officially ​accuse someone of ​committing a ​crime in a ​law ​court, or (of a ​lawyer) to ​try to ​prove that a ​person ​accused of ​committing a ​crime is ​guilty of that ​crime	He was prosecuted for ​fraud.	2016-04-14 11:00:35.94223+08	2016-04-28 15:46:12.651286+08	ˈprɑː.sə.kjuːt	2016-04-29 15:46:12.648042+08	f
+41	prospective	prospective	http://dictionary.cambridge.org/media/english/us_pron/p/pro/prosp/prospective.mp3	​people who are ​expected to ​buy something, ​employ someone, ​become ​parents, etc	We've had three sets of prospective ​buyers ​looking at the ​house.	2016-04-14 10:21:29.098645+08	2016-04-28 16:48:00.847572+08	prəˈspek.tɪv	2016-04-29 16:48:00.844369+08	f
+71	quality	quality	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus73/eus73797.mp3	how good or ​bad something is	a ​shop ​advertising ​top quality ​electrical ​goods	2016-04-19 10:30:05.116897+08	2016-04-28 15:43:41.808751+08	ˈkwɑː.lə.t̬i	2016-04-29 15:43:41.80603+08	f
+40	obedient	obedient	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus75/eus75087.mp3	doing, or ​willing to do, what you have been told to do by someone in ​authority	Students are ​expected to be ​quiet and obedient in the ​classroom.	2016-04-13 16:56:42.239927+08	2016-04-29 08:31:33.216123+08	oʊˈbiː.di.ənt	2016-04-30 08:31:33.21331+08	f
+37	mess	mess	http://dictionary.cambridge.org/media/english/us_pron/m/mes/mess_/mess.mp3	Something or someone that is a mess, or is in a mess, ​looks ​dirty or ​untidy	He makes a ​terrible mess when he's ​cooking.	2016-04-13 14:20:15.504558+08	2016-04-29 08:32:02.56525+08	mes	2016-04-30 08:32:02.562443+08	f
+35	moreover	moreover	http://dictionary.cambridge.org/media/english/us_pron/m/mor/moreo/moreover.mp3	(used to ​add ​information) also and more ​importantly	The ​whole ​report is ​badly written. Moreover, it's ​inaccurate.	2016-04-13 13:33:29.713208+08	2016-04-29 08:32:18.457901+08	ˌmɔːrˈoʊ.vɚ	2016-04-30 08:32:18.454966+08	f
+32	lettuce	lettuce	http://dictionary.cambridge.org/media/english/us_pron/l/let/lettu/lettuce.mp3	a ​plant with ​large, ​green ​leaves, ​eaten ​uncooked in ​salads	One ​sandwich and a lettuce ​leaf - I don't ​call that a ​meal!	2016-04-13 12:47:57.830052+08	2016-04-29 08:33:56.831028+08	ˈlet̬.ɪs	2016-04-30 08:33:56.828027+08	f
+70	lucid	lucid	http://dictionary.cambridge.org/media/english/us_pron/l/luc/lucid/lucid.mp3	​clearly ​expressed and ​easy to ​understand, or (of a ​person) ​thinking or ​speaking ​clearly	She gave a ​clear and lucid ​account of her ​plans for the company's ​future.	2016-04-18 16:04:53.871762+08	2016-04-28 15:43:45.458045+08	ˈluː.sɪd	2016-04-29 15:43:45.454988+08	f
+69	rumble	rumble	http://dictionary.cambridge.org/media/english/us_pron/r/rum/rumbl/rumble.mp3	to make a ​continuous, ​low ​sound, or to move ​slowly while making such a ​sound	My ​stomach is rumbling. / The ​trucks rumbled ​across the ​field.	2016-04-18 10:31:43.980431+08	2016-04-28 15:43:48.756432+08	ˈrʌm.bəl	2016-04-29 15:43:48.752586+08	f
+68	imminent	imminent	http://dictionary.cambridge.org/media/english/us_pron/i/imm/immin/imminent.mp3	coming or ​likely to ​happen very ​soon	A ​strike is imminent.	2016-04-18 10:29:41.964026+08	2016-04-28 15:43:52.9947+08	ˈɪm.ə.nənt	2016-04-29 15:43:52.991733+08	f
+66	coherence	coherence	http://dictionary.cambridge.org/media/english/us_pron/c/coh/coher/coherence.mp3	the ​situation when the ​parts of something ​fit together in a ​natural or ​reasonable way / a ​clear ​relationship between ​parts, esp. in a ​work of ​literature or ​art	There was no coherence between the first and the second ​half of the ​movie.	2016-04-18 09:09:57.821601+08	2016-04-28 15:44:01.627165+08	kəʊˈhɪə.rəns	2016-04-29 15:44:01.62429+08	f
+65	barn	barn	http://dictionary.cambridge.org/media/english/us_pron/b/bar/barn_/barn.mp3	a ​large ​building on a ​farm in which ​hay (= ​dried ​grass) and ​grain and often ​farm ​animals are ​kept	The ​house, a ​former barn, has been ​attractively ​converted.	2016-04-16 17:52:22.197675+08	2016-04-28 15:44:05.81106+08	bɑːrn	2016-04-29 15:44:05.808094+08	f
+64	ladder	ladder	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus72/eus72715.mp3	a ​piece of ​equipment used for ​climbing up and down, and consisting of two ​vertical ​bars ​joined by a set of ​horizontal ​steps	She was up a ladder, ​cleaning the ​window.	2016-04-16 17:50:30.047955+08	2016-04-28 15:44:16.449233+08	ˈlæd.ɚ	2016-04-29 15:44:16.446001+08	f
+63	funnel	funnel	http://dictionary.cambridge.org/media/english/us_pron/f/fun/funne/funnel.mp3	an ​object that has a ​wide round ​opening at the ​top, ​sloping ​sides, and a ​narrow ​tube at the ​bottom, used for ​pouring ​liquids or ​powders into ​containers with ​narrow ​necks	After you ​grind the ​coffee, use a funnel to ​pour it into the ​jar.	2016-04-15 16:38:13.29293+08	2016-04-28 15:44:19.468338+08	ˈfʌn.əl	2016-04-29 15:44:19.46468+08	f
+62	anecdote	anecdote	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus75/eus75475.mp3	a ​short, often ​amusing ​story about an ​event, usually ​involving a ​particular ​person	He told some ​funny anecdotes about ​famous ​people.	2016-04-15 16:34:40.278714+08	2016-04-28 15:44:24.314585+08	ˈæn·ɪkˌdoʊt	2016-04-29 15:44:24.311585+08	f
+61	thesis	thesis	http://dictionary.cambridge.org/media/english/us_pron/t/the/thesi/thesis.mp3	a ​long ​piece of writing on a ​particular ​subject, ​especially one that is done for a ​higher ​college or ​university ​degree	a ​doctoral thesis	2016-04-15 14:12:19.904933+08	2016-04-28 15:44:29.381081+08	ˈθiː.siːz	2016-04-29 15:44:29.377995+08	f
+60	cylinder	cylinder	http://dictionary.cambridge.org/media/english/us_pron/c/cyl/cylin/cylinder.mp3	a ​solid or ​hollow ​tube with ​long ​straight ​sides and two ​circular ​ends the same ​size, or an ​object ​shaped like this, often used as a ​container	Deep-sea ​divers ​carry cylinders of ​oxygen on ​their ​backs.	2016-04-15 10:55:28.123267+08	2016-04-28 15:44:33.45897+08	ˈsɪl.ɪn.dɚ	2016-04-29 15:44:33.456037+08	f
+59	purge	purge	http://dictionary.cambridge.org/media/english/us_pron/p/pur/purge/purge.mp3	to get ​rid of ​people from an ​organization because you do not ​agree with them	Party ​leaders have ​undertaken to purge the ​party of ​extremists.	2016-04-15 09:02:39.710013+08	2016-04-28 15:44:36.846104+08	pɝːdʒ	2016-04-29 15:44:36.842349+08	f
+58	regime	regime	http://dictionary.cambridge.org/media/english/us_pron/r/reg/regim/regime.mp3	mainly disapproving, a ​particular ​government or a ​system or ​method of ​government	The ​old ​corrupt, ​totalitarian regime was ​overthrown.	2016-04-15 08:55:06.786011+08	2016-04-28 15:44:40.571446+08	reɪˈʒiːm	2016-04-29 15:44:40.568662+08	f
+57	integrity	integrity	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus72/eus72464.mp3	the ​quality of being ​honest and having ​strong ​moral ​principles	He was a man of the ​highest ​personal integrity.	2016-04-14 16:39:58.311689+08	2016-04-28 15:44:46.146843+08	ɪnˈteɡ·rɪ·t̬i	2016-04-29 15:44:46.144028+08	f
+56	fence	fence	http://dictionary.cambridge.org/media/english/us_pron/f/fen/fence/fence.mp3	a ​structure of ​wood or ​wire ​forming a ​wall around a ​house or a ​piece of ​land, often to ​keep ​people or ​animals from coming in or going out	He put up a fence to ​keep his ​dog in the ​backyard.	2016-04-14 15:52:22.869083+08	2016-04-28 15:44:49.091442+08	fens	2016-04-29 15:44:49.088693+08	f
+55	attain	attain	http://dictionary.cambridge.org/media/english/us_pron/a/att/attai/attain.mp3	to ​achieve something ​difficult to do or ​obtain	You need ​financial ​security in ​order to attain ​emotional ​well-being.	2016-04-14 15:04:28.56834+08	2016-04-28 15:44:53.123603+08	əˈteɪn	2016-04-29 15:44:53.12046+08	f
+54	bizarre	bizarre	http://dictionary.cambridge.org/media/english/us_pron/b/biz/bizar/bizarre.mp3	very ​strange and ​unusual	a bizarre ​situation	2016-04-14 13:58:55.940164+08	2016-04-28 15:45:02.957108+08	bəˈzɑːr	2016-04-29 15:45:02.953265+08	f
+53	sheer	sheer	http://dictionary.cambridge.org/media/english/us_pron/s/she/shear/shear.mp3	used to ​emphasize how very ​great, ​important, or ​powerful a ​quality or ​feeling is; nothing except	The ​suggestion is sheer ​nonsense.	2016-04-14 13:57:32.021901+08	2016-04-28 15:45:07.578874+08	ʃɪr	2016-04-29 15:45:07.575763+08	f
+52	tremendous	tremendous	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus75/eus75975.mp3	very ​great in ​amount or ​level, or ​extremely good	They were making a tremendous ​amount of ​noise last ​night. / You ​won? That's tremendous!	2016-04-14 13:55:18.547601+08	2016-04-28 15:45:12.7007+08	trɪˈmen.dəs	2016-04-29 15:45:12.69782+08	f
+51	coincidence	coincidence	http://dictionary.cambridge.org/media/english/us_pron/c/coi/coinc/coincidence.mp3	an ​occasion when two or more ​similar things ​happen at the same ​time, ​especially in a way that is ​unlikely and ​surprising	You ​chose ​exactly the same ​wallpaper as us - what a coincidence!	2016-04-14 13:44:42.341003+08	2016-04-28 15:45:19.940252+08	koʊˈɪn.sɪ.dəns	2016-04-29 15:45:19.937238+08	f
+50	nobility	nobility	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus73/eus73237.mp3	​honesty, ​courage, and ​kindness	nobility of ​spirit/​purpose	2016-04-14 13:31:17.796444+08	2016-04-28 15:45:24.351888+08	noʊˈbɪl.ə.t̬i	2016-04-29 15:45:24.348998+08	f
+94	literacy	literacy	http://dictionary.cambridge.org/media/english/us_pron/l/lit/liter/literacy.mp3	the ​ability to ​read and write	She was ​actively ​involved in ​programs to ​increase ​adult literacy.	2016-04-27 10:22:57.822128+08	2016-04-29 08:14:55.943248+08	ˈlɪt̬·ər·ə·si	2016-05-03 08:14:55.940317+08	f
+74	stimulate	stimulate	http://dictionary.cambridge.org/media/english/us_pron/s/sti/stimu/stimulate.mp3	to ​encourage something to ​grow, ​develop, or ​become ​active	Tax ​cuts will stimulate the ​economy.	2016-04-19 13:35:12.36783+08	2016-04-28 15:43:27.681727+08	ˈstɪm.jə.leɪt	2016-04-29 15:43:27.679016+08	f
+73	remind	remind	http://dictionary.cambridge.org/media/english/us_pron/r/rem/remin/remind.mp3	to make someone ​aware of something ​forgotten or ​possibly ​forgotten, or to ​bring back a ​memory to someone	Remind him to ​call me.	2016-04-19 11:23:59.654903+08	2016-04-28 15:43:32.656016+08	rɪˈmɑɪnd	2016-04-29 15:43:32.653263+08	f
+1	imperative	imperative	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus72/eus72337.mp3	extremely ​important or ​urgent	The ​president said it was imperative that the ​release of all ​hostages be ​secured.	2016-03-31 15:40:20.180133+08	2016-04-28 15:27:14.74147+08	ɪmˈper·ə·t̬ɪv	2016-04-29 15:27:14.734867+08	f
+72	rubric	rubric	http://dictionary.cambridge.org/media/english/us_pron/u/usr/usrsi/usrsi__009.mp3	a set of ​instructions, ​especially on an ​exam ​paper, usually ​printed in a different ​style or ​colour	Read/Follow the rubric ​carefully.	2016-04-19 11:22:04.442744+08	2016-04-28 15:43:37.529157+08	ˈruː.brɪk	2016-04-29 15:43:37.526344+08	f
+96	surge	surge	http://dictionary.cambridge.org/media/english/us_pron/s/sur/surge/surge.mp3	to ​increase ​suddenly and ​strongly	The company's ​profits have surged.	2016-04-27 10:57:23.976105+08	2016-04-29 08:10:29.932925+08	sɝːdʒ	2016-05-03 08:10:29.929907+08	f
+92	novel	novel	http://dictionary.cambridge.org/media/english/us_pron/n/nov/novel/novel.mp3	new and ​original, not like anything ​seen before	a novel ​idea/​suggestion  /   Keeping a ​sheep in the ​garden is a novel way of ​keeping the ​grass ​short!	2016-04-27 10:15:28.313993+08	2016-04-29 08:35:57.419796+08	ˈnɒv.əl	2016-05-03 08:35:57.417088+08	f
+91	marvelous	marvelous	http://dictionary.cambridge.org/media/english/us_pron/m/mar/marve/marvelous.mp3	​extremely good	This marvelous ​invention will ​help many ​disabled ​people.	2016-04-26 16:53:15.488651+08	2016-04-29 08:36:10.491006+08	ˈmɑr·və·ləs	2016-05-03 08:36:10.488216+08	f
+90	stress	stress	http://dictionary.cambridge.org/media/english/us_pron/s/str/stres/stress.mp3	​worry caused by a ​difficult ​situation, or something that ​causes this ​condition	Luis is under a lot of stress ​right now.	2016-04-25 14:28:32.134304+08	2016-04-29 08:36:25.578139+08	stres	2016-05-03 08:36:25.574693+08	f
+89	anger	anger	http://dictionary.cambridge.org/media/english/us_pron/a/ang/anger/anger.mp3	the ​feeling ​people get when something ​unfair, ​painful, or ​bad ​happens	You need to ​control ​your anger.	2016-04-25 14:26:44.279197+08	2016-04-29 08:37:12.402875+08	ˈæŋ.ɡɚ	2016-05-03 08:37:12.399814+08	f
+88	rude	rude	http://dictionary.cambridge.org/media/english/us_pron/r/rud/rude_/rude.mp3	not ​polite; ​offensive or ​embarrassing	It's rude not to say "Thank you" when you are given something.	2016-04-25 14:24:57.463573+08	2016-04-29 08:39:46.912139+08	ruːd	2016-05-03 08:39:46.9091+08	f
+87	penny	penny	http://dictionary.cambridge.org/media/english/us_pron/p/pen/penny/penny.mp3	in the US and Canada, a ​coin ​worth 1/100th of a ​dollar; a ​cent:	I ​keep pennies in a ​jar.	2016-04-25 13:52:42.193765+08	2016-04-29 08:39:52.404753+08	ˈpen.i	2016-05-03 08:39:52.401792+08	f
+86	grace	grace	http://dictionary.cambridge.org/media/english/us_pron/g/gra/grace/grace.mp3	to be in a ​place, on a thing etc. and make it ​look more ​attractive	Her ​face has graced the ​covers of ​magazines ​across the ​world.	2016-04-25 13:40:55.088061+08	2016-04-29 08:40:18.797402+08	ɡreɪs	2016-05-03 08:40:18.794111+08	f
+85	disguise	disguise	http://dictionary.cambridge.org/media/english/us_pron/d/dis/disgu/disguise.mp3	something that someone ​wears to ​hide ​their ​true ​appearance	He put on a ​large ​hat and ​glasses as a disguise and ​hoped no one would ​recognize him.	2016-04-25 13:24:09.778283+08	2016-04-29 08:40:34.156082+08	dɪsˈɡaɪz	2016-05-03 08:40:34.152863+08	f
+83	collude	collude	http://dictionary.cambridge.org/media/english/us_pron/u/usc/uscol/uscolle009.mp3	to ​act together ​secretly or ​illegally in ​order to ​deceive or ​cheat someone	It was ​suspected that the ​police had colluded with the ​witnesses.	2016-04-25 12:56:36.890832+08	2016-04-29 08:41:09.825584+08	kəˈluːd	2016-05-03 08:41:09.822598+08	f
+82	convention	convention	http://dictionary.cambridge.org/media/english/us_pron/c/con/conve/convention.mp3	a ​large ​formal ​meeting of ​people who do a ​particular ​job or have a ​similar ​interest, or a ​large ​meeting for a ​political ​party / a way of doing something or ​appearing that is ​considered ​usual and ​correct	a convention of ​travel ​agents / Convention ​dictates that it is the man who ​asks the woman to ​marry him and not the other way round.	2016-04-25 12:52:04.324655+08	2016-04-29 09:06:51.270779+08	kənˈven·ʃən	2016-05-03 09:06:51.26786+08	f
+81	contrary	contrary	http://dictionary.cambridge.org/media/english/us_pron/e/eus/eus70/eus70993.mp3	on the contrary - used to show that you ​think or ​feel the ​opposite of what has just been ​stated	"I ​thought you said the ​film was ​exciting?" "On the contrary, I ​nearly ​fell ​asleep ​half way through it!"	2016-04-25 10:30:38.369294+08	2016-04-29 09:07:19.196411+08	ˈkɑːn.tre.ri	2016-05-03 09:07:19.193503+08	f
+80	tension	tension	http://dictionary.cambridge.org/media/english/us_pron/t/ten/tensi/tension.mp3	​anxiety and ​worry	The tension was ​unbearable as we ​waited for ​our ​exam ​results.	2016-04-22 13:13:16.665894+08	2016-04-29 09:08:16.873839+08	ˈten.ʃən	2016-05-03 09:08:16.870957+08	f
+79	anxiety	anxiety	http://dictionary.cambridge.org/media/english/us_pron/a/anx/anxie/anxiety.mp3	an ​uncomfortable ​feeling of ​worry about something that is ​happening or might ​happen, or a ​cause of this	For many ​children, every new ​school ​year ​causes anxiety.	2016-04-22 13:11:06.020779+08	2016-04-29 09:08:33.126243+08	æŋˈzɑɪ·ɪ·t̬i	2016-05-03 09:08:33.123268+08	f
+78	lard	lard	http://dictionary.cambridge.org/media/english/us_pron/l/lar/lard_/lard.mp3	a ​soft, ​white, ​creamy ​substance made from the ​fat of ​pigs and used in ​cooking and ​baking	Cooking with olive oil is healthier than cooking with lard.	2016-04-22 12:48:26.059981+08	2016-04-29 09:53:35.841523+08	lɑːrd	2016-05-03 09:53:35.837869+08	f
+77	amendment	amendment	http://dictionary.cambridge.org/media/english/us_pron/a/ame/amend/amendment.mp3	a ​change or ​addition to the US ​constitution	the First/Fifth/Fourteenth amendment / a ​constitutional amendment	2016-04-22 10:47:08.99553+08	2016-04-29 10:10:07.744915+08	əˈmend·mənt	2016-05-03 10:10:07.741854+08	f
+76	rind	rind	http://dictionary.cambridge.org/media/english/us_pron/r/rin/rind_/rind.mp3	the hard ​outer ​layer or ​covering of ​particular ​fruits and ​foods	​lemon/​orange rind	2016-04-19 13:47:36.346774+08	2016-04-29 10:10:56.997956+08	raɪnd	2016-05-03 10:10:56.995042+08	f
+75	circumference	circumference	http://dictionary.cambridge.org/media/english/us_pron/c/cir/circu/circumference.mp3	the ​line ​surrounding a ​circular ​space, or the ​length of this ​line	the circumference of a ​circle	2016-04-19 13:45:55.959801+08	2016-04-29 10:11:08.83692+08	sɚˈkʌm.fɚ.əns	2016-05-03 10:11:08.834204+08	f
+67	internship	internship	http://dictionary.cambridge.org/media/english/us_pron/i/int/inter/internship.mp3	a ​period of ​training ​spent in a ​hospital by a ​young ​doctor in ​order to ​finish ​their ​medical ​qualification / a ​period of ​time during which someone ​works for a ​company or ​organization in ​order to get ​experience of a ​particular ​type of ​work	He ​served his internship at Garfield Hospital.	2016-04-18 09:19:49.719758+08	2016-04-28 15:43:57.530115+08	ˈɪn.tɜːn.ʃɪp	2016-04-29 15:43:57.527151+08	f
+49	traction	traction	http://dictionary.cambridge.org/media/english/us_pron/t/tra/tract/traction.mp3	the ​ability of a ​wheel or ​tire to ​hold the ​ground without ​sliding	I ​reduce the ​air ​pressure in all four ​tires during ​winter for ​better traction on ​slick, ​icy ​roads.	2016-04-14 11:41:37.586587+08	2016-04-28 15:45:28.533098+08	ˈtræk·ʃən	2016-04-29 15:45:28.530127+08	f
+44	assessment	assessment	http://dictionary.cambridge.org/media/english/us_pron/a/ass/asses/assessment.mp3	the ​act of ​judging or ​deciding the ​amount, ​value, ​quality, or ​importance of something, or the ​judgment or ​decision that is made	Would you say that is a ​fair assessment of the ​situation?	2016-04-14 11:11:56.5185+08	2016-04-28 15:46:03.854187+08	əˈses.mənt	2016-04-29 15:46:03.850331+08	f
+97	probe	probe	http://dictionary.cambridge.org/media/english/us_pron/p/pro/probe/probe.mp3	to ​examine something with a ​tool, ​especially in ​order to ​find something that is ​hidden	They probed in/into the ​mud with a ​special ​drill.	2016-04-27 11:57:42.875362+08	2016-04-29 08:10:00.547511+08	proʊb	2016-05-03 08:10:00.519197+08	f
+95	counterfeit	counterfeit	http://dictionary.cambridge.org/media/english/us_pron/c/cou/count/counterfeit.mp3	made to ​look like the ​original of something, usually for ​dishonest or ​illegal ​purposes	counterfeit ​jewellery/​passports/​coins	2016-04-27 10:49:12.934426+08	2016-04-29 08:14:38.931075+08	ˈkaʊn.tə.fɪt	2016-05-03 08:14:38.927727+08	f
+12	personnel	personnel	http://dictionary.cambridge.org/media/english/us_pron/p/per/perso/personnel.mp3	the ​people ​working in an ​organization or for a ​particular ​type of ​employer	​Saturday was the most ​convenient ​day for ​students, ​parents, and ​school personnel.	2016-04-11 13:14:55.40898+08	2016-04-29 08:16:13.864266+08	ˌpɜr·səˈnel	2016-04-30 08:16:13.861248+08	f
+93	barrier	barrier	http://dictionary.cambridge.org/media/english/us_pron/b/bar/barri/barrier.mp3	a ​long ​pole, ​fence, ​wall, or ​natural ​feature, such as a ​mountain or ​sea, that ​stops ​people from going ​somewhere	The ​mountains ​acted as a ​natural barrier to the ​spread of the ​disease.	2016-04-27 10:20:14.287856+08	2016-04-29 08:35:17.087362+08	ˈber.i.ɚ	2016-05-03 08:35:17.084447+08	f
+84	marijuana	marijuana	http://dictionary.cambridge.org/media/english/us_pron/m/mar/marij/marijuana.mp3	a ​drug, ​illegal in many ​countries, that is made from the ​dried ​leaves and ​flowers of the ​hemp ​plant. Marijuana ​produces a ​pleasant ​feeling of being ​relaxed if ​smoked or ​eaten.	The were ​convicted of ​possessing ​large ​quantities of marijuana.	2016-04-25 13:13:55.572492+08	2016-04-29 08:40:49.940525+08	ˌmer.əˈwɑː.nə	2016-05-03 08:40:49.937473+08	f
+\.
+
+
+--
+-- Name: word_word_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('word_word_id_seq', 97, true);
+
+
+--
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions_group_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission_content_type_id_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups_user_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type_app_label_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: word_review_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY word_review
+    ADD CONSTRAINT word_review_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: word_word_code_1300e011_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY word_word
+    ADD CONSTRAINT word_word_code_1300e011_uniq UNIQUE (code);
+
+
+--
+-- Name: word_word_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY word_word
+    ADD CONSTRAINT word_word_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_0e939a4f ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_8373b171 ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_permission_417f1b1c ON auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_0e939a4f; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_0e939a4f ON auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_e8701ad4 ON auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_8373b171; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_8373b171 ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_e8701ad4 ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_417f1b1c; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_417f1b1c ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_e8701ad4; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_e8701ad4 ON django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_de54fa62; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_de54fa62 ON django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: word_review_83ca49d0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX word_review_83ca49d0 ON word_review USING btree (word_id);
+
+
+--
+-- Name: word_word_code_1300e011_like; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX word_word_code_1300e011_like ON word_word USING btree (code varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permiss_permission_id_84c5c92e_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permiss_content_type_id_2f476e4b_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_per_permission_id_1fbb5f2c_fk_auth_permission_id FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_content_type_id_c4bce8eb_fk_django_content_type_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_content_type_id_c4bce8eb_fk_django_content_type_id FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: word_review_word_id_48aa9385_fk_word_word_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY word_review
+    ADD CONSTRAINT word_review_word_id_48aa9385_fk_word_word_id FOREIGN KEY (word_id) REFERENCES word_word(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: lewisou
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM lewisou;
+GRANT ALL ON SCHEMA public TO lewisou;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
