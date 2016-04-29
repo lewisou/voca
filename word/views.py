@@ -92,10 +92,14 @@ def create(request):
 	f = AddWordForm(request.POST)
 	if f.is_valid():
 		e = f.save()
-	return redirect(reverse('word:list'))
+		year, month, day = e.getDateTuple()
+		return redirect(reverse('word:list', kwargs={'year': year, 'month': month, 'day': day}))
+	else:
+		return HttpResponse("Create Failed.")
 
 def downloadVoice(request, id):
 	word = Word.objects.get(pk=id)
 	word.downloadPronounceFile()
-	return redirect(reverse('word:list'))
+	year, month, day = word.getDateTuple()
+	return redirect(reverse('word:list', kwargs={'year': year, 'month': month, 'day': day}))
 
