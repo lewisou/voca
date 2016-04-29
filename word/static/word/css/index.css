@@ -1,0 +1,13 @@
+#word_index_page audio {
+	display: none;
+}
+
+#word_index_page ul#audio_list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#word_index_page ul#audio_list li {
+	margin-bottom: 5px;
+}
