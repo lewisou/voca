@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'word/css/index.css' %}" />
+{% endblock %}
+
+{% block body %}
+
+<div id="word_index_page">
+
+<h1>Remain: {{ total }}</h1>
+
+<a class="pull-right btn btn-default" href="{% url 'word:index' %}">Back</a>
+
+<ul id="audio_list">
+{% for w in word_list %}
+	<li>
+		<audio controls id="audio_{{w.id}}">
+			{% with 'word/'|add:w.code|add:'.mp3' as mp3_url %}
+			<source src="{% static mp3_url %}" type="audio/mpeg">
+			{% endwith %}
+		</audio>
+
+		<form class="form-inline" action="{% url 'word:check' w.id %}">
+			<div class="form-group">
+				<input class="practice form-control" audio="audio_{{w.id}}" word="{{w.word}}" tabindex="{{forloop.counter}}">
+			</div>
+
+			<a href="{% url 'word:check' w.id %}" class="btn btn-primary">check</a>
+
+			<a href="{% url 'word:downloadVoice' w.id %}" class="btn btn-default btn-xs">
+				<i>download voice</i>
+			</a>
+
+			<span class="badge">{{w.rc}}</span>
+		</form>
+	</li>
+{% endfor %}
+</ul>
+
+<script src="{% static 'word/js/index.js' %}"></script>
+
+</div><!-- word_index_page -->
+{% endblock %}

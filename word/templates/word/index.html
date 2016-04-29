@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block body %}
+
+<a href="{% url 'word:new' %}" class="btn btn-info">New Word</a>
+<hr>
+<table class="table">
+{% for count in counts %}
+	{% if count.next_review_date|date:"Y-m-d" < midnight|date:"Y-m-d" %}
+	<tr class="warning">
+	{% else %}
+	<tr>
+	{% endif %}
+
+		<td class="col-sm-2">
+			{{count.next_review_date}}
+		</td>
+
+		<td class="col-sm-1">
+			{% if count.count > 50 %}
+				<span class="label label-danger">{{count.count}}</span>
+			{% else %}
+				<span class="label label-default">{{count.count}}</span>
+			{% endif %}
+			
+		</td>
+		<td>
+			{% if count.next_review_date|date:"Y-m-d" < midnight|date:"Y-m-d" %}
+			<a class="btn btn-xs btn-default" 
+				href="{% url 'word:list' count.next_review_date.year count.next_review_date.month count.next_review_date.day %}">Review</a>
+			{% endif %}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+<i>Progress: {{onProgress}} / Graduates: {{graduates}}</i>
+{% endblock %}

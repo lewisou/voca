@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block body %}
+
+<div id="word_check_page">
+
+<h1>{{ word.word }}</h1>
+
+<p>/{{ word.pronounce }}/</p>
+
+
+<div class="row">
+
+	<div class="col-md-8">
+		<h2>{{ word.explainatin }}</h2>
+		<!-- audio controls class="pull-right">
+			{% with 'word/'|add:word.code|add:'.mp3' as mp3_url %}
+			<source src="{% static mp3_url %}" type="audio/mpeg">
+			{% endwith %}
+		</audio -->
+
+		<h3>{{ word.example }}</h3>
+	</div>
+</div>
+
+<form action="{% url 'word:done' word.id %}" method="POST">
+	{% csrf_token %}
+	<input type="submit" value="DONE WITH THE WORD" tabindex="1" class="btn btn-primary">
+</form>
+
+<a tabindex="2" href="{% url 'word:list' year month day %}" class="btn btn-default">Go Back</a>
+
+</div>
+{% endblock %}
