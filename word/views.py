@@ -36,7 +36,7 @@ def _get_midnight(year, month, day):
 def index(request):
 	midnight = _get_next_day_midnight()
 
-	counts = Word.objects.filter(graduated=False).extra({'next_review_date' : 'date(next_review_at)'})\
+	counts = Word.objects.filter(graduated=False).extra({'next_review_date' : "date(next_review_at AT TIME ZONE '" + settings.TIME_ZONE + "')"})\
 					.values('next_review_date').annotate(count=Count('id'))\
 					.order_by('next_review_date')
 
@@ -58,9 +58,10 @@ def list(request, year, month, day):
 	word_list = Word.objects.filter(graduated=False)\
 				.filter(next_review_at__gte=midnight)\
 				.filter(next_review_at__lt=next_midnight)\
-				.annotate(rc=Count('review'))\
 				.order_by('-created_at')
 	total = word_list.count()
+	# .filter(review__good=True)\
+	# .annotate(rc=Count('review'))\
 
 	return render(request, 'word/list.html', 
 					{'word_list': word_list,
@@ -83,6 +84,14 @@ def done(request, id):
 		word.review_set.create()
 		word.calculate_next_review_date()
 		return redirect(reverse('word:list', kwargs={'year': year, 'month': month, 'day': day}))
+
+def markBad(request, id):
+	word = Word.objects.get(pk=id)
+	if word.markLastReviewAsBad():
+		year, month, day = word.getDateTuple()
+		return redirect(reverse('word:list', kwargs={'year': year, 'month': month, 'day': day}))
+	else:
+		return HttpResponse("Nothing to mark.")
 
 def new(request):
 	form = AddWordForm()
