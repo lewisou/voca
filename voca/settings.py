@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOWNLOAD_DIR = os.path.join(BASE_DIR, "static")
 
 MEMORY_CURVE_C = 1.0
-MEMORY_CURVE_END = 100
+MEMORY_CURVE_END = 300
 
 STATICFILES_DIRS = [
     DOWNLOAD_DIR,
