@@ -36,9 +36,13 @@ def _get_midnight(year, month, day):
 def index(request):
 	midnight = _get_next_day_midnight()
 
-	counts = Word.objects.filter(graduated=False).extra({'next_review_date' : "date(next_review_at AT TIME ZONE '" + settings.TIME_ZONE + "')"})\
-					.values('next_review_date').annotate(count=Count('id'))\
-					.order_by('next_review_date')
+	# counts = Word.objects.filter(graduated=False).extra({'next_review_date' : "date(next_review_at AT TIME ZONE '" + settings.TIME_ZONE + "')"})\
+	# 				.values('next_review_date').annotate(count=Count('id'))\
+	# 				.order_by('next_review_date')
+
+	counts = Word.objects.filter(graduated=False).extra({'next_review_date' : "date(next_review_at, 'localtime')"})\
+				.values('next_review_date').annotate(count=Count('id'))\
+				.order_by('next_review_date')
 
 	onProgress = Word.objects.filter(graduated=False).count()
 	graduates = Word.objects.filter(graduated=True).count()

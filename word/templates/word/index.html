@@ -8,7 +8,7 @@
 <hr>
 <table class="table">
 {% for count in counts %}
-	{% if count.next_review_date|date:"Y-m-d" < midnight|date:"Y-m-d" %}
+	{% if count.next_review_date < midnight|date:"Y-m-d" %}
 	<tr class="warning">
 	{% else %}
 	<tr>
@@ -27,10 +27,14 @@
 			
 		</td>
 		<td>
-			{% if count.next_review_date|date:"Y-m-d" < midnight|date:"Y-m-d" %}
+			{% with year=count.next_review_date|slice:"0:4" month=count.next_review_date|slice:"5:7" day=count.next_review_date|slice:"8:10" %}
+			{% if count.next_review_date < midnight|date:"Y-m-d" %}
 			<a class="btn btn-xs btn-default" 
-				href="{% url 'word:list' count.next_review_date.year count.next_review_date.month count.next_review_date.day %}">Review</a>
+				href="{% url 'word:list' year month day %}">
+				Review
+			</a>
 			{% endif %}
+			{% endwith %}
 		</td>
 	</tr>
 {% endfor %}
