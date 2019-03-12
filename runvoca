@@ -3,9 +3,9 @@
 # export PYENV_ROOT="$HOME/.pyenv"
 # export PATH="$PYENV_ROOT/bin:$PATH"
 # eval "$(pyenv init -)"
-
-#. env/bin/activate
 #pyenv activate voca
 
+cd ~/Applications/voca
+. env/bin/activate
 ./manage.py runserver
 
