@@ -4,5 +4,7 @@ from .models import Word
 
 @receiver(pre_save, sender=Word)
 def gene_code(sender, instance, **kwargs):
-	instance.code = instance.word.replace(" ", "").lower()
+	if not instance.code:
+		instance.code = instance.word.replace(" ", "").replace("/", "-").lower()
+
 
